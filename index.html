@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ubicación</title>
+    <script>
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(enviarUbicacion, mostrarError);
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        }
+
+        function enviarUbicacion(position) {
+            const latitud = position.coords.latitude;
+            const longitud = position.coords.longitude;
+
+            // Reemplaza este enlace con el de tu formulario y los IDs de los campos correspondientes
+            const url = `https://docs.google.com/forms/d/e/1FAIpQLSf8HT1epwwZgyvHyeMkt7pJkvfRvXVc0lfie7C65Aobi7VhFw/viewform?usp=pp_url&entry.1556744867=${latitud},${longitud}`;
+
+            // Redirigir al formulario con los datos prellenados
+            window.location.href = url;
+        }
+
+        function mostrarError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("Has denegado el acceso a la ubicación.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("La ubicación no está disponible.");
+                    break;
+                case error.TIMEOUT:
+                    alert("El tiempo para obtener la ubicación expiró.");
+                    break;
+                default:
+                    alert("Ocurrió un error desconocido.");
+                    break;
+            }
+        }
+    </script>
+</head>
+<body onload="obtenerUbicacion()">
+    <h1>Obteniendo Ubicación...</h1>
+    <p>Por favor, espera mientras capturamos tu ubicación y redirigimos al formulario.</p>
+</body>
+</html>
